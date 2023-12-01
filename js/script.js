@@ -61,16 +61,27 @@ function createNote(id, content, fixed){
 
     const pinIcon = document.createElement('i')
     pinIcon.classList.add(...['bi', 'bi-pin'])
-
     element.appendChild(pinIcon)
+
+    const deleteIcon = document.createElement('i')
+    deleteIcon.classList.add(...['bi', 'bi-x-lg'])
+    element.appendChild(deleteIcon)
+
+    const duplicateIcon = document.createElement('i')
+    duplicateIcon.classList.add(...['bi', 'bi-file-earmark-plus'])
+    element.appendChild(duplicateIcon)
 
     if(fixed){
         element.classList.add('fixed')
     }
 
-    // eventos do elements
+    // eventos do elemento
     element.querySelector('.bi-pin').addEventListener('click', () =>{
         toggleFixeNote(id)
+    })
+
+    element.querySelector('.bi-x-lg').addEventListener('click', () => {
+        deleteNote(id, element)
     })
 
     return element
@@ -87,6 +98,14 @@ function toggleFixeNote(id) {
 
     showNotes()
 }
+
+    function deleteNote(id, element) {
+        const notes = getNotes().filter((note) => note.id !== id)
+
+        saveNotes(notes)
+
+        notesContainer.removeChild(element)
+    }
 
 // Local Storage
 function getNotes(){
